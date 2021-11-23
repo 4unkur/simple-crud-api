@@ -1,22 +1,8 @@
 const http = require('http');
-const { port } = require('./app/config/app');
+const config = require('./src/config/app');
+const { boot } = require('./src/app');
 
-http
-  .createServer((req, res) => {
-    res.writeHead(200);
+const app = boot(config).run;
 
-    const uri = req.url;
-
-    switch (true) {
-      case uri === '/person':
-      case uri === '/person/':
-        res.write('person index');
-        break;
-      case uri.includes('/person/'):
-        res.write('fetch person');
-        break;
-    }
-
-    res.end();
-  })
-  .listen(port, () => console.log(`Server running at http://localhost:${port}`));
+http.createServer(app)
+  .listen(config.port, () => console.log(`Server running at http://localhost:${config.port}`));
