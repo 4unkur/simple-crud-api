@@ -1,9 +1,22 @@
 const http = require('http');
-const { port } = require('./config')
+const { port } = require('./app/config/app');
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200);
-  res.end('Hello, World!');
-});
+http
+  .createServer((req, res) => {
+    res.writeHead(200);
 
-server.listen(port);
+    const uri = req.url;
+
+    switch (true) {
+      case uri === '/person':
+      case uri === '/person/':
+        res.write('person index');
+        break;
+      case uri.includes('/person/'):
+        res.write('fetch person');
+        break;
+    }
+
+    res.end();
+  })
+  .listen(port, () => console.log(`Server running at http://localhost:${port}`));
