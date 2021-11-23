@@ -1,6 +1,5 @@
 const http = require('http');
-
-const port = 3000;
+const { port } = require('./config')
 
 const server = http.createServer((req, res) => {
   res.writeHead(200);

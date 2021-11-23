@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/4unkur/simple-crud-api/issues"
   },
-  "homepage": "https://github.com/4unkur/simple-crud-api#readme"
+  "homepage": "https://github.com/4unkur/simple-crud-api#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  }
 }
