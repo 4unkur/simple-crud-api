@@ -1,0 +1,23 @@
+{
+  "name": "simple-crud-api",
+  "version": "1.0.0",
+  "description": "RS School NodeJS Course Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4unkur/simple-crud-api.git"
+  },
+  "keywords": [
+    "rs",
+    "school"
+  ],
+  "author": "Daiyrbek Artelov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/4unkur/simple-crud-api/issues"
+  },
+  "homepage": "https://github.com/4unkur/simple-crud-api#readme"
+}
