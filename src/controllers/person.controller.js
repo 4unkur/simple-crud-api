@@ -5,9 +5,17 @@ class PersonController {
     this.res = res;
   }
 
-  index() {
+  fetchAll() {
     this.res.write('all users here');
     this.res.end();
+  }
+
+  fetch(id) {
+
+  }
+
+  create() {
+
   }
 }
 

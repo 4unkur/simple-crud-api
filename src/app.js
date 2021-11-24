@@ -11,14 +11,18 @@ class App {
     const method = req.method;
     const url = req.url;
 
-    const id = this.routeModelKeyService.extractUuid(url, '/person');
+    const id = this.routeModelKeyService.extractUuid(url, 'person');
 
     if (method === 'GET' && (url === '/person' || url === '/person/')) {
-      return personController(this, req, res).index();
+      return personController(this, req, res).fetchAll();
     }
 
     if (method === 'GET' && (url.includes('/person/') && id)) {
-      return personController(this, req, res).show(uuid);
+      return personController(this, req, res).fetch(id);
+    }
+
+    if (method === 'POST' && (url === '/person' || url === '/person/')) {
+      return personController(this, req, res).create();
     }
   };
 }
