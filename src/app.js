@@ -1,17 +1,17 @@
 const personController = require('./controllers/person.controller');
-const RouteModelKeyService = require('./services/route.model.key.service')
+const RouteModelKeyService = require('./services/route.model.key.service');
 
 class App {
   constructor(config) {
     this._config = config;
-    this.routeModelKeyService = new RouteModelKeyService()
+    this.routeModelKeyService = new RouteModelKeyService();
   }
 
   run(req, res) {
     const method = req.method;
     const url = req.url;
 
-    const id = this.routeModelKeyService.extractUuid(req)
+    const id = this.routeModelKeyService.extractUuid(url, '/person');
 
     if (method === 'GET' && (url === '/person' || url === '/person/')) {
       return personController(this, req, res).index();
