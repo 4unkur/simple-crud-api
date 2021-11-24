@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/4unkur/simple-crud-api#readme",
   "dependencies": {
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "jest": "^27.3.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
