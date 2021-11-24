@@ -1,8 +1,9 @@
 class PersonController {
-  constructor(app, req, res) {
-    this.app = app;
+  constructor(req, res) {
     this.req = req;
     this.res = res;
+
+    this.personRepository = new PersonRepository()
   }
 
   fetchAll() {
@@ -19,6 +20,6 @@ class PersonController {
   }
 }
 
-const factory = (app, req, res) => new PersonController(app, req, res);
+const factory = (req, res) => new PersonController(req, res);
 
 module.exports = factory;
