@@ -3,7 +3,7 @@ class PersonController {
     this.req = req;
     this.res = res;
 
-    this.personRepository = new PersonRepository()
+    this.personRepository = new PersonRepository();
   }
 
   fetchAll() {
@@ -15,7 +15,11 @@ class PersonController {
 
   }
 
-  create() {
+  create(data) {
+
+  }
+
+  delete(id) {
 
   }
 }

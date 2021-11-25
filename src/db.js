@@ -9,32 +9,43 @@ class DB {
     return Object.keys(this.storage);
   }
 
-  select(table, id = null) {
+  select(id = null) {
     if (id) {
-      return this.storage[table].find(record => record.id === id);
+      return this.storage.find(record => record.id === id);
     }
 
-    return this.storage[table];
+    return this.storage;
   }
 
-  insert(table, data) {
-    if (this.storage[table] === undefined) {
-      this.storage[table] = [];
-    }
-
+  insert(data) {
     data['id'] = uuid.v4();
 
-    this.storage[table].push(data);
+    this.storage.push(data);
 
     return data;
   }
 
-  update(table, id, data) {
+  update(id, data) {
+    const index = this.storage.findIndex(record => record.id === id);
+    if (index === -1) {
+      return false;
+    }
 
+    data.id ??= id;
+    this.storage[index] = data;
+
+    return true;
   }
 
-  delete(table, id) {
+  delete(id) {
+    const index = this.storage.findIndex(record => record.id === id);
+    if (index === -1) {
+      return false;
+    }
 
+    this.storage.splice(index, 1);
+
+    return true;
   }
 
   truncate() {

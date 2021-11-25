@@ -1,16 +1,19 @@
 const uuid = require('uuid');
 
 class RouteModelKeyService {
-  extractUuid(url, modelKey) {
-    const id = url.split('/')
-      .filter(part => part !== '' && part !== modelKey)
-      .join('/');
+  extractUuid(urlParts, modelKey) {
 
-    if (!uuid.validate(id)) {
+    if (urlParts[1] !== modelKey) {
       return null;
     }
 
-    return id;
+    const id = urlParts[2];
+
+    if (id && uuid.validate(id)) {
+      return id;
+    }
+
+    return null;
   }
 }
 

@@ -9,21 +9,27 @@ class App {
 
   run(req, res) {
     const method = req.method;
-    const url = req.url;
+    const urlParts = req.url.split('/');
 
-    const id = this.routeModelKeyService.extractUuid(url, 'person');
+    const id = this.routeModelKeyService.extractUuid(urlParts, 'person');
 
-    if (method === 'GET' && (url === '/person' || url === '/person/')) {
+    if (method === 'GET' && req.url === '/person') {
       return personController(this, req, res).fetchAll();
     }
 
-    if (method === 'GET' && (url.includes('/person/') && id)) {
+    if (method === 'GET' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
       return personController(this, req, res).fetch(id);
     }
 
-    if (method === 'POST' && (url === '/person' || url === '/person/')) {
+    if (method === 'POST' && req.url === '/person') {
       return personController(this, req, res).create();
     }
+
+    if (method === 'DELETE' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
+      return personController(this.req, res).delete();
+    }
+
+    return 404;
   };
 }
 
