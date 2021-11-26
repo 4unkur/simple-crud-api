@@ -1,6 +1,7 @@
 const personController = require('./controllers/person.controller');
 const RouteModelKeyService = require('./services/route.model.key.service');
 const DB = require('../src/db');
+const Response = require('../src/response');
 
 class App {
   constructor(config) {
@@ -9,12 +10,12 @@ class App {
     this.routeModelKeyService = new RouteModelKeyService();
   }
 
-  get db() {
-    return this._db;
-  }
-
   set db(db) {
     this._db = db;
+  }
+
+  get db() {
+    return this._db;
   }
 
   set config(config) {
@@ -52,12 +53,10 @@ class App {
           return personController(req, res).delete(id);
         }
 
-        res.statusCode = 404;
-        res.end('Not Found');
-
+        return Response.notFound(res);
       } catch (err) {
-        res.statusCode = err.statusCode || 500;
-        res.end(err.message || 'Something Went Wrong');
+        Response.serverError(res);
+
         process.stderr.write(err);
         process.exit(1);
       }

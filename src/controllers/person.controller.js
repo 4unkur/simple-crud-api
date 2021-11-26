@@ -1,4 +1,5 @@
 const PersonRepository = require('../repositories/person.repository');
+const Response = require('../response');
 
 class PersonController {
   constructor(req, res) {
@@ -11,26 +12,17 @@ class PersonController {
   fetchAll() {
     const records = this.personRepository.getAll();
 
-    this.res.writeHead(200, { 'Content-Type': 'application/json' });
-    this.res.write(JSON.stringify(records));
-
-    return this.res.end();
+    return Response.ok(this.res, records);
   }
 
   fetch(id) {
     const record = this.personRepository.get(id);
 
     if (!record) {
-      this.res.writeHead(404, { 'Content-Type': 'application/json' });
-      this.res.write('Not Found');
-
-      return this.res.end();
+      return Response.notFound(this.res);
     }
 
-    this.res.writeHead(200, { 'Content-Type': 'application/json' });
-    this.res.write(JSON.stringify(record));
-
-    return this.res.end();
+    return Response.ok(this.res, record);
   }
 
   async create() {
@@ -44,20 +36,14 @@ class PersonController {
 
     const record = this.personRepository.create(JSON.parse(data));
 
-    this.res.writeHead(201, { 'Content-Type': 'application/json' });
-    this.res.write(JSON.stringify(record));
-
-    return this.res.end();
+    return Response.created(this.res, record);
   }
 
   async update(id) {
     const record = this.personRepository.get(id);
 
     if (!record) {
-      this.res.writeHead(404, { 'Content-Type': 'application/json' });
-      this.res.write('Not Found');
-
-      return this.res.end();
+      return Response.notFound(this.res);
     }
 
     const chunks = [];
@@ -71,26 +57,18 @@ class PersonController {
     this.personRepository.update(id, JSON.parse(data));
     const updatedRecord = this.personRepository.get(id);
 
-    this.res.writeHead(200, { 'Content-Type': 'application/json' });
-    this.res.write(JSON.stringify(updatedRecord));
-
-    return this.res.end();
+    return Response.ok(this.res, updatedRecord);
   }
 
   delete(id) {
     const data = this.personRepository.get(id);
     if (!data) {
-      this.res.writeHead(404, { 'Content-Type': 'application/json' });
-      this.res.write('Not Found');
-
-      return this.res.end();
+      return Response.notFound(this.res);
     }
 
     this.personRepository.delete(id);
 
-    this.res.statusCode = 204;
-
-    return this.res.end();
+    return Response.noContent(this.res);
   }
 }
 
