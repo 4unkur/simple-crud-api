@@ -1,8 +1,8 @@
 const http = require('http');
 const config = require('./src/config/app');
-const { boot } = require('./src/app');
+const App = require('./src/app');
 
-global.app = boot(config).run;
+global.app = new App(config);
 
-http.createServer(app)
+http.createServer(app.serve())
   .listen(config.port, () => console.log(`Server running at http://localhost:${config.port}`));

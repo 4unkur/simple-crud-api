@@ -1,40 +1,68 @@
 const personController = require('./controllers/person.controller');
 const RouteModelKeyService = require('./services/route.model.key.service');
+const DB = require('../src/db');
 
 class App {
   constructor(config) {
-    this._config = config;
+    this.db = new DB();
+    this.config = config;
     this.routeModelKeyService = new RouteModelKeyService();
   }
 
-  run(req, res) {
-    const method = req.method;
-    const urlParts = req.url.split('/');
+  get db() {
+    return this._db;
+  }
 
-    const id = this.routeModelKeyService.extractUuid(urlParts, 'person');
+  set db(db) {
+    this._db = db;
+  }
 
-    if (method === 'GET' && req.url === '/person') {
-      return personController(this, req, res).fetchAll();
-    }
+  set config(config) {
+    this._config = config;
+  }
 
-    if (method === 'GET' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
-      return personController(this, req, res).fetch(id);
-    }
+  get config() {
+    return this._config;
+  }
 
-    if (method === 'POST' && req.url === '/person') {
-      return personController(this, req, res).create();
-    }
+  serve() {
+    return (req, res) => {
+      const urlParts = req.url.split('/');
 
-    if (method === 'DELETE' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
-      return personController(this.req, res).delete();
-    }
+      const id = this.routeModelKeyService.extractUuid(urlParts, 'person');
 
-    return 404;
+      try {
+        if (req.method === 'GET' && req.url === '/person') {
+          return personController(req, res).fetchAll();
+        }
+
+        if (req.method === 'GET' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
+          return personController(req, res).fetch(id);
+        }
+
+        if (req.method === 'POST' && req.url === '/person') {
+          return personController(req, res).create();
+        }
+
+        if (req.method === 'PUT' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
+          return personController(req, res).update(id);
+        }
+
+        if (req.method === 'DELETE' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
+          return personController(req, res).delete(id);
+        }
+
+        res.statusCode = 404;
+        res.end('Not Found');
+
+      } catch (err) {
+        res.statusCode = err.statusCode || 500;
+        res.end(err.message || 'Something Went Wrong');
+        process.stderr.write(err);
+        process.exit(1);
+      }
+    };
   };
 }
 
-module.exports = {
-  boot(config) {
-    return new App(config);
-  }
-};
+module.exports = App;
