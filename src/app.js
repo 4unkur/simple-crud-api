@@ -1,5 +1,4 @@
 const personController = require('./controllers/person.controller');
-const RouteModelKeyService = require('./services/route.model.key.service');
 const DB = require('../src/db');
 const Response = require('../src/response');
 
@@ -7,7 +6,6 @@ class App {
   constructor(config) {
     this.db = new DB();
     this.config = config;
-    this.routeModelKeyService = new RouteModelKeyService();
   }
 
   set db(db) {
@@ -28,16 +26,19 @@ class App {
 
   serve() {
     return (req, res) => {
-      const urlParts = req.url.split('/');
 
-      const id = this.routeModelKeyService.extractUuid(urlParts, 'person');
+      const parts = req.url.match(/\/person\/([a-z0-9-]+$)/);
+      let id = null;
+      if (parts !== null) {
+        id = parts[1];
+      }
 
       try {
         if (req.method === 'GET' && req.url === '/person') {
           return personController(req, res).fetchAll();
         }
 
-        if (req.method === 'GET' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
+        if (req.method === 'GET' && id) {
           return personController(req, res).fetch(id);
         }
 
@@ -45,20 +46,17 @@ class App {
           return personController(req, res).create();
         }
 
-        if (req.method === 'PUT' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
+        if (req.method === 'PUT' && id) {
           return personController(req, res).update(id);
         }
 
-        if (req.method === 'DELETE' && (req.url.includes('/person/') && id && urlParts.length === 3)) {
+        if (req.method === 'DELETE' && id) {
           return personController(req, res).delete(id);
         }
 
         return Response.notFound(res);
       } catch (err) {
-        Response.serverError(res);
-
-        console.error(err);
-        process.exit(1);
+        return Response.error(res, err);
       }
     };
   };

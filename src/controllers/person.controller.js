@@ -1,5 +1,7 @@
 const PersonRepository = require('../repositories/person.repository');
 const Response = require('../response');
+const uuid = require('uuid');
+const ValidationError = require('../errors/validation.error');
 
 class PersonController {
   constructor(req, res) {
@@ -16,6 +18,10 @@ class PersonController {
   }
 
   fetch(id) {
+    if (!uuid.validate(id)) {
+      throw new ValidationError('Invalid UUID');
+    }
+
     const record = this.personRepository.get(id);
 
     if (!record) {

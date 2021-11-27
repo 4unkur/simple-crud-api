@@ -19,9 +19,9 @@ class Response {
     res.end();
   }
 
-  static serverError(res, message = 'Something Went Wrong') {
-    res.statusCode = 500;
-    this.response(res, message);
+  static error(res, err) {
+    res.statusCode = err.code ?? 500;
+    this.response(res, err.message ?? 'Something Went Wrong');
   }
 
   static response(res, data) {
