@@ -45,7 +45,7 @@ describe('End-to-End Testing', () => {
     const MOCK_UPDATED_PERSON = {
       name: 'Edited name',
       age: 100500,
-      hobbies: ['php', 'is', 'the', 'best']
+      hobbies: ['php', 'is', 'the', 'best'] // 😉
     };
 
     const res = await fetch(`/person/${person.id}`, {

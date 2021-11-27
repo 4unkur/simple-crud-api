@@ -26,7 +26,6 @@ class App {
 
   serve() {
     return (req, res) => {
-
       const parts = req.url.match(/\/person\/([a-z0-9-]+$)/);
       let id = null;
       if (parts !== null) {

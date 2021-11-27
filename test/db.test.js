@@ -16,7 +16,7 @@ describe('DB test', () => {
 
   test('it updates data', () => {
     const MOCK_DATA = {
-      id: 69,
+      id: 69, // ( ͡° ͜ʖ ͡° )
       name: 'test'
     };
 

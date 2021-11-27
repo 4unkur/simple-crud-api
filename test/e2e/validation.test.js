@@ -3,7 +3,7 @@ const { makeFetch } = require('supertest-fetch');
 const fetch = makeFetch(server);
 const uuid = require('uuid');
 
-describe('e2e validation tests', () => {
+describe('End-to-End Validation Tests', () => {
   test('GET /person/{personId} - should return 400 if invalid personId passed (non-valid uuid)', async () => {
     const res = await fetch(`/person/123123`)
       .expect(400);

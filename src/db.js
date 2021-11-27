@@ -5,10 +5,6 @@ class DB {
     this.storage = [];
   }
 
-  showTables() {
-    return Object.keys(this.storage);
-  }
-
   select(id = null) {
     if (id) {
       return this.storage.find(record => record.id === id);
