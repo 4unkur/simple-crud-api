@@ -6,7 +6,7 @@ class PersonController {
     this.req = req;
     this.res = res;
 
-    this.personRepository = new PersonRepository();
+    this.personRepository = new PersonRepository(global.app.db);
   }
 
   fetchAll() {

@@ -57,7 +57,7 @@ class App {
       } catch (err) {
         Response.serverError(res);
 
-        process.stderr.write(err);
+        console.error(err);
         process.exit(1);
       }
     };

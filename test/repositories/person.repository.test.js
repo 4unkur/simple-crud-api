@@ -1,15 +1,10 @@
 const PersonRepository = require('../../src/repositories/person.repository');
 const DB = require('../../src/db');
-const uuid = require('uuid');
 
 jest.mock('../../src/db', () => {
   return function () {
     return {
-      insert: (table, data) => {
-        data['id'] = '';
-
-        return data;
-      }
+      insert: (data) => data
     };
   };
 });
@@ -22,8 +17,6 @@ describe('person repository test', () => {
   test('it creates a person', () => {
     const data = {};
     const result = repo.create(data);
-
-    delete result.id;
 
     expect(result).toBe(data);
   });

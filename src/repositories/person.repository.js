@@ -1,6 +1,6 @@
 class PersonRepository {
-  constructor() {
-    this.db = global.app.db;
+  constructor(db) {
+    this.db = db;
   }
 
   get(id) {
