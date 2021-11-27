@@ -48,7 +48,8 @@ class App {
         }
 
         if (req.method === 'PUT' && id) {
-          return personController(req, res).update(id);
+          return personController(req, res).update(id)
+            .catch(err => Response.error(res, err));
         }
 
         if (req.method === 'DELETE' && id) {

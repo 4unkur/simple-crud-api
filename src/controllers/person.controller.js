@@ -49,6 +49,10 @@ class PersonController {
   }
 
   async update(id) {
+    if (!uuid.validate(id)) {
+      throw new ValidationError('Invalid UUID');
+    }
+
     const record = this.personRepository.get(id);
 
     if (!record) {
@@ -70,6 +74,10 @@ class PersonController {
   }
 
   delete(id) {
+    if (!uuid.validate(id)) {
+      throw new ValidationError('Invalid UUID');
+    }
+
     const data = this.personRepository.get(id);
     if (!data) {
       return Response.notFound(this.res);

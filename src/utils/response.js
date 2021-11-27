@@ -20,8 +20,8 @@ class Response {
   }
 
   static error(res, err) {
-    res.statusCode = err.code ?? 500;
-    this.response(res, err.message ?? 'Something Went Wrong');
+    res.statusCode = err.code || 500;
+    this.response(res, err.message || 'Something Went Wrong');
   }
 
   static response(res, data) {
