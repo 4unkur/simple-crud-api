@@ -2,10 +2,11 @@
   "name": "simple-crud-api",
   "version": "1.0.0",
   "description": "RS School NodeJS Course Project",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "jest",
-    "start:dev": "nodemon"
+    "start:dev": "nodemon",
+    "start:prod": "npx webpack --config webpack.config.js && node build/main.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,8 @@
     "jest": "^27.3.1",
     "node-mocks-http": "^1.11.0",
     "nodemon": "^2.0.15",
-    "supertest-fetch": "^1.5.0"
+    "supertest-fetch": "^1.5.0",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   }
 }
