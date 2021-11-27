@@ -22,8 +22,12 @@ function validatePerson(data) {
     errors.push('Field "hobbies" is required');
   }
 
-  if (data.hobbies && !Array.isArray(data.hobbies)) {
+  if (!Array.isArray(data.hobbies)) {
     errors.push('Field "hobbies" should be an array');
+  }
+
+  if (Array.isArray(data.hobbies) && !data.hobbies.every(hobby => typeof hobby === 'string')) {
+    errors.push('Field "hobbies" should be an array of string');
   }
 
   if (errors.length) {
