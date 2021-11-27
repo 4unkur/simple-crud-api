@@ -76,7 +76,7 @@ describe('End-to-End Testing', () => {
     const res = await fetch(`/person/${person.id}`)
       .expect(404);
 
-    const message = await res.text();
-    expect(message).toEqual('Not Found');
+    const data = await res.json();
+    expect(data.message).toEqual('Not Found');
   });
 });

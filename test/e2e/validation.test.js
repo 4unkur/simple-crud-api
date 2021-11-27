@@ -8,8 +8,8 @@ describe('End-to-End Validation Tests', () => {
     const res = await fetch(`/person/123123`)
       .expect(400);
 
-    const message = await res.text();
-    expect(message).toEqual('Invalid UUID');
+    const data = await res.json();
+    expect(data.message).toEqual('Invalid UUID');
   });
 
   test.each([
@@ -25,8 +25,8 @@ describe('End-to-End Validation Tests', () => {
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
     }).expect(400);
-    const message = await res.text();
-    expect(message).toContain(errorField);
+    const body = await res.json();
+    expect(body.message).toContain(errorField);
   });
 
   test('PUT /person/{personId} - should return 400 invalid uuid passed', async () => {
@@ -35,8 +35,8 @@ describe('End-to-End Validation Tests', () => {
       body: JSON.stringify({}),
       headers: { 'Content-Type': 'application/json' }
     }).expect(400);
-    const message = await res.text();
-    expect(message).toBe('Invalid UUID');
+    const data = await res.json();
+    expect(data.message).toBe('Invalid UUID');
   });
 
   test('PUT /person/{personId} - should return 404 if non existing person is requested', async () => {
@@ -46,16 +46,16 @@ describe('End-to-End Validation Tests', () => {
       body: JSON.stringify({}),
       headers: { 'Content-Type': 'application/json' }
     }).expect(404);
-    const message = await res.text();
-    expect(message).toBe('Not Found');
+    const data = await res.json();
+    expect(data.message).toBe('Not Found');
   });
 
   test('DELETE /person/{personId} - should return 400 invalid uuid passed', async () => {
     const res = await fetch('/person/invalid-uuid', {
       method: 'DELETE',
     }).expect(400);
-    const message = await res.text();
-    expect(message).toBe('Invalid UUID');
+    const data = await res.json();
+    expect(data.message).toBe('Invalid UUID');
   });
 
   test('DELETE /person/{personId} - should return 404 if non existing person is requested', async () => {
@@ -63,7 +63,7 @@ describe('End-to-End Validation Tests', () => {
     const res = await fetch(`/person/${id}`, {
       method: 'DELETE',
     }).expect(404);
-    const message = await res.text();
-    expect(message).toBe('Not Found');
+    const data = await res.json();
+    expect(data.message).toBe('Not Found');
   });
 });

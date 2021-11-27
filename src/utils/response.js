@@ -26,10 +26,10 @@ class Response {
 
   static response(res, data) {
     res.setHeader('Content-Type', 'application/json');
-    if (typeof data === 'object') {
-      data = JSON.stringify(data);
+    if (typeof data === 'string') {
+      data = { message: data };
     }
-    res.write(data);
+    res.write(JSON.stringify(data));
     res.end();
   }
 }
