@@ -4,7 +4,8 @@
   "description": "RS School NodeJS Course Project",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start:dev": "nodemon"
   },
   "repository": {
     "type": "git",
