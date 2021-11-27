@@ -1,6 +1,6 @@
 const personController = require('./controllers/person.controller');
 const DB = require('../src/db');
-const Response = require('../src/response');
+const Response = require('./utils/response');
 
 class App {
   constructor(config) {
@@ -43,7 +43,8 @@ class App {
         }
 
         if (req.method === 'POST' && req.url === '/person') {
-          return personController(req, res).create();
+          return personController(req, res).create()
+            .catch(err => Response.error(res, err));
         }
 
         if (req.method === 'PUT' && id) {

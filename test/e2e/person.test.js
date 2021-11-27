@@ -79,12 +79,4 @@ describe('End-to-End Testing', () => {
     const message = await res.text();
     expect(message).toEqual('Not Found');
   });
-
-  test('GET /person/{personId} - should return 400 if invalid personId passed (non-valid uuid)', async () => {
-    const res = await fetch(`/person/123123`)
-      .expect(400);
-
-    const message = await res.text();
-    expect(message).toEqual('Invalid UUID');
-  });
 });

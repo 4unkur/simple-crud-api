@@ -1,5 +1,5 @@
 const http = require('http');
-const config = require('./config');
+const config = require('./utils/config');
 const App = require('./app');
 
 global.app = new App(config);

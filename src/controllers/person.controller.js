@@ -1,7 +1,8 @@
 const PersonRepository = require('../repositories/person.repository');
-const Response = require('../response');
+const Response = require('../utils/response');
 const uuid = require('uuid');
 const ValidationError = require('../errors/validation.error');
+const validator = require('../utils/validator');
 
 class PersonController {
   constructor(req, res) {
@@ -38,9 +39,11 @@ class PersonController {
       chunks.push(chunk);
     }
 
-    const data = Buffer.concat(chunks).toString();
+    const data = JSON.parse(Buffer.concat(chunks).toString());
 
-    const record = this.personRepository.create(JSON.parse(data));
+    validator.validatePerson(data);
+
+    const record = this.personRepository.create(data);
 
     return Response.created(this.res, record);
   }
