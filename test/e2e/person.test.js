@@ -5,6 +5,10 @@ const fetch = makeFetch(server);
 
 const MOCK_PERSON = { name: 'Ryan Dahl', age: 40, hobbies: ['js', 'nodejs', 'deno'] };
 
+beforeEach(() => {
+  app.db.truncate();
+});
+
 describe('End-to-End Testing', () => {
   test('GET /person - should return array', async () => {
     await fetch('/person')
@@ -36,7 +40,7 @@ describe('End-to-End Testing', () => {
     expect(result).toEqual(person);
   });
 
-  test('PUT /person/{personId} - should update a person and return updated versin', async () => {
+  test('PUT /person/{personId} - should update a person and return updated version', async () => {
     const person = app.db.insert(MOCK_PERSON);
     const MOCK_UPDATED_PERSON = {
       name: 'Edited name',
@@ -52,6 +56,27 @@ describe('End-to-End Testing', () => {
 
     const body = await res.json();
     expect(uuid.validate(body.id)).toBeTruthy();
-    expect(body).toEqual({id: person.id, ...MOCK_UPDATED_PERSON});
+    expect(body).toEqual({ id: person.id, ...MOCK_UPDATED_PERSON });
+  });
+
+  test('DELETE /person/{personId} - should delete a person', async () => {
+    const person = app.db.insert(MOCK_PERSON);
+
+    await fetch(`/person/${person.id}`, {
+      method: 'DELETE'
+    }).expect(204);
+
+    expect(app.db.select(person.id)).toBeUndefined();
+  });
+
+  test('GET /person/{personId} - should return 404 if removed (non existing) person requested', async () => {
+    const person = app.db.insert(MOCK_PERSON);
+    app.db.delete(person.id);
+
+    const res = await fetch(`/person/${person.id}`)
+      .expect(404);
+
+    const message = await res.text();
+    expect(message).toEqual('Not Found');
   });
 });
