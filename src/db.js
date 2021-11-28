@@ -14,7 +14,7 @@ class DB {
   }
 
   insert(data) {
-    data['id'] = uuid.v4();
+    data = { id: uuid.v4(), ...data };
 
     this.storage.push(data);
 
@@ -27,7 +27,7 @@ class DB {
       return false;
     }
 
-    data.id ??= id;
+    data.id = id;
     this.storage[index] = data;
 
     return true;
