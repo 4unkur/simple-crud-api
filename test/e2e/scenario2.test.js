@@ -1,6 +1,5 @@
 const server = require('../../src/server');
 const { makeFetch } = require('supertest-fetch');
-const uuid = require("uuid");
 const fetch = makeFetch(server);
 
 afterAll(() => {

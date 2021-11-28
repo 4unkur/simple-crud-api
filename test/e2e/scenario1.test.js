@@ -38,7 +38,7 @@ describe('End-to-End Testing Scenario 1', () => {
 
     person = await res.json();
     expect(uuid.validate(person.id)).toBeTruthy();
-    expect(person).toEqual({ id: person.id, ...MOCK_PERSON });
+    expect(person).toEqual(expect.objectContaining(MOCK_PERSON));
   });
 
   test('GET /person/{personId} - should return person by personId', async () => {
@@ -59,7 +59,7 @@ describe('End-to-End Testing Scenario 1', () => {
 
     const body = await res.json();
     expect(uuid.validate(body.id)).toBeTruthy();
-    expect(body).toEqual({ id: person.id, ...MOCK_UPDATED_PERSON });
+    expect(body).toEqual(expect.objectContaining(MOCK_UPDATED_PERSON));
   });
 
   test('DELETE /person/{personId} - should delete a person', async () => {
