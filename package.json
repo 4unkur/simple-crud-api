@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "start:dev": "nodemon",
+    "start:dev": "nodemon index.js",
     "start:prod": "npx webpack --config webpack.config.js && node build/main.js"
   },
   "repository": {
