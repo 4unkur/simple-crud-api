@@ -39,7 +39,11 @@ class PersonController {
       chunks.push(chunk);
     }
 
-    const data = JSON.parse(Buffer.concat(chunks).toString());
+    try {
+      const data = JSON.parse(Buffer.concat(chunks).toString());
+    } catch (err) {
+      throw new ValidationError('Invalid JSON');
+    }
 
     validator.validatePerson(data);
 
@@ -65,9 +69,15 @@ class PersonController {
       chunks.push(chunk);
     }
 
-    const data = Buffer.concat(chunks).toString();
+    try {
+      const data = JSON.parse(Buffer.concat(chunks).toString());
+    } catch (err) {
+      throw new ValidationError('Invalid JSON');
+    }
 
-    this.personRepository.update(id, JSON.parse(data));
+    validator.validatePerson(data);
+
+    this.personRepository.update(id, parsed);
     const updatedRecord = this.personRepository.get(id);
 
     return Response.ok(this.res, updatedRecord);
